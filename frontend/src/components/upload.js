@@ -3,9 +3,18 @@ import { useState } from "react";
 import { uploadFileToIPFS, uploadJSONToIPFS, sendFileToIPFS } from "./pinata";
 import MusicLibrary from '../components/MusicLibrary.json';
 import { useLocation } from "react-router";
+import {
+    Heading, Button, FormControl,
+    FormLabel,
+    FormErrorMessage,
+    FormHelperText,
+    VStack,
+    Input,
+    Textarea
+} from "@chakra-ui/react";
 
-export default function SellNFT () {
-    const [formParams, updateFormParams] = useState({ artistName: '', genre:'', songTitle:'', copyRight:''});
+export default function SellNFT() {
+    const [formParams, updateFormParams] = useState({ artistName: '', genre: '', songTitle: '', copyRight: '' });
     const [fileURL, setFileURL] = useState(null);
     const [songFileURl, setSongFileURL] = useState(null);
     const ethers = require("ethers");
@@ -19,37 +28,37 @@ export default function SellNFT () {
         try {
             //upload the file to IPFS
             const response = await uploadFileToIPFS(file);
-            if(response.success === true) {
+            if (response.success === true) {
                 console.log("Uploaded image to Pinata: ", response.pinataURL)
                 setFileURL(response.pinataURL);
             }
         }
-        catch(e) {
+        catch (e) {
             console.log("Error during file upload", e);
         }
     }
-     //This function uploads the song to IPFS
-     async function OnChangeSongFile(e) {
+    //This function uploads the song to IPFS
+    async function OnChangeSongFile(e) {
         var file = e.target.files[0];
         //check for file extension
         try {
             //upload the file to IPFS
             const response = await uploadFileToIPFS(file);
-            if(response.success === true) {
+            if (response.success === true) {
                 console.log("Uploaded song to Pinata: ", response.pinataURL)
                 setSongFileURL(response.pinataURL);
             }
         }
-        catch(e) {
+        catch (e) {
             console.log("Error during file upload", e);
         }
     }
 
     //This function uploads the metadata to IPFS
     async function uploadMetadataToIPFS() {
-        const {artistName, genre, songTitle, copyRight} = formParams;
+        const { artistName, genre, songTitle, copyRight } = formParams;
         //Make sure that none of the fields are empty
-        if( !artistName || !genre || !songTitle || !copyRight || !fileURL || !songFileURl)
+        if (!artistName || !genre || !songTitle || !copyRight || !fileURL || !songFileURl)
             return;
 
         const nftJSON = {
@@ -59,12 +68,12 @@ export default function SellNFT () {
         try {
             //upload the metadata JSON to IPFS
             const response = await uploadJSONToIPFS(nftJSON);
-            if(response.success === true){
+            if (response.success === true) {
                 console.log("Uploaded JSON to Pinata: ", response)
                 return response.pinataURL;
             }
         }
-        catch(e) {
+        catch (e) {
             console.log("error uploading JSON metadata:", e)
         }
     }
@@ -94,62 +103,59 @@ export default function SellNFT () {
 
             alert("Successfully listed your NFT!");
             updateMessage("");
-            updateFormParams({ artistName: '', genre:'', songTitle:'', copyRight:''});
+            updateFormParams({ artistName: '', genre: '', songTitle: '', copyRight: '' });
             window.location.replace("/")
         }
-        catch(e) {
-            alert( "Upload error"+e )
+        catch (e) {
+            alert("Upload error" + e)
         }
     }
 
     console.log("Working", process.env);
     return (
         <div className="">
-        <Navbar></Navbar>
-        <div className="" id="">
-            <form className="">
-            <h3 className="">Upload your song to AuxBlock</h3>
-                <div className="">
-                    <label className="" htmlFor="Artist">Artist</label>
-                    <input className="" id="" type="text" placeholder="Arists" 
-                    onChange={e => updateFormParams({...formParams, artistName: e.target.value})} value={formParams.artistName}></input>
-                </div>
-                <div className="">
-                    <label className="">Song title</label>
-                    <input className="" id="" type="text" placeholder="Song Title" 
-                    onChange={e => updateFormParams({...formParams, songTitle: e.target.value})} value={formParams.songTitle}></input>
-                </div>
-                <div className="">
-                    <label className="">Genre</label>
-                    <input className="" id="" type="text" placeholder="Genre" 
-                    onChange={e => updateFormParams({...formParams, genre: e.target.value})} value={formParams.genre}></input>
-                </div>
-                <div className="mb-6">
-                    <label className="">Copy Right Text</label>
-                    <textarea className="" cols="40" rows="5" id="" type="text" placeholder="copy right" 
-                    value={formParams.description} 
-                    onChange={e => updateFormParams({...formParams, copyRight: e.target.value})}>       
-                    </textarea>
-                </div>
-                {/* <div className="mb-6">
-                    <label className="block text-purple-500 text-sm font-bold mb-2" htmlFor="price">Price (in ETH)</label>
-                    <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="number" placeholder="Min 0.01 ETH" step="0.01" value={formParams.price} onChange={e => updateFormParams({...formParams, price: e.target.value})}></input>
-                </div> */}
-                <div>
-                    <label className="">Upload Image</label>
-                    <input type={"file"} onChange={OnChangeFile}></input>
-                </div>
-                <div>
-                    <label className="" >Upload Song</label>
-                    <input type={"file"} onChange={OnChangeSongFile}></input>
-                </div>
-                <br></br>
-                <div className="tr">{message}</div>
-                <button onClick={listNFT} className="">
-                    Upload Music
-                </button>
-            </form>
-        </div>
+            <Navbar />
+            <div className="flex bg-white shadow-md w-fit mx-auto my-4" id="">
+                <form className="flex flex-col p-4">
+                    <Heading>Upload your song to AuxBlock</Heading>
+                    <VStack>
+                        <FormControl isRequired>
+                            <FormLabel htmlFor="Artist">Artist</FormLabel>
+                            <Input className="" id="" type="text" placeholder="Arists"
+                                onChange={e => updateFormParams({ ...formParams, artistName: e.target.value })} value={formParams.artistName} />
+                        </FormControl>
+                        <FormControl isRequired>
+                            <FormLabel>Song Title</FormLabel>
+                            <Input className="" id="" type="text" placeholder="Song Title"
+                                onChange={e => updateFormParams({ ...formParams, songTitle: e.target.value })} value={formParams.songTitle} />
+                        </FormControl>
+                        <FormControl isRequired>
+                            <FormLabel>Genre</FormLabel>
+                            <Input className="" id="" type="text" placeholder="Genre"
+                                onChange={e => updateFormParams({ ...formParams, genre: e.target.value })} value={formParams.genre} />
+                        </FormControl>
+                        <FormControl isRequired>
+                            <FormLabel>Copy Right Text</FormLabel>
+                            <Textarea className="" id="" type="text" row="8" placeholder="copy right"
+                                value={formParams.description}
+                                onChange={e => updateFormParams({ ...formParams, copyRight: e.target.value })} />
+                        </FormControl>
+                        <FormControl isRequired>
+                            <FormLabel>Upload Music Cover</FormLabel>
+                            <Input type={"file"} onChange={OnChangeFile} />
+                        </FormControl>
+                        <FormControl isRequired>
+                            <FormLabel>Upload Song</FormLabel>
+                            <Input type={"file"} onChange={OnChangeSongFile} />
+                        </FormControl>
+                    </VStack>
+
+                    <div className="tr">{message}</div>
+                    <Button className="my-4" colorScheme={"purple"} onClick={listNFT}>
+                        Upload Music
+                    </Button>
+                </form>
+            </div>
         </div>
     )
 }
@@ -158,7 +164,7 @@ export default function SellNFT () {
 
 // Fields to add :
 //title
-// Artiste name 
+// Artiste name
 // Genre ://
 // Copy right
 
