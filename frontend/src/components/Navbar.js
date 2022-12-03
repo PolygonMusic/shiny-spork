@@ -10,43 +10,43 @@ import {
 } from "react-router-dom";
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router';
+import { Button } from '@chakra-ui/react';
 
 
 
 function Navbar() {
 
-const [connected, toggleConnect] = useState(false);
-const location = useLocation();
-const [currAddress, updateAddress] = useState('0x');
+  const [connected, toggleConnect] = useState(false);
+  const location = useLocation();
+  const [currAddress, updateAddress] = useState('0x');
 
-async function getAddress() {
-  const ethers = require("ethers");
-  const provider = new ethers.providers.Web3Provider(window.ethereum);
-  const signer = provider.getSigner();
-  const addr = await signer.getAddress();
-  updateAddress(addr);
-}
+  async function getAddress() {
+    const ethers = require("ethers");
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+    const addr = await signer.getAddress();
+    updateAddress(addr);
+  }
 
-function updateButton() {
-  const ethereumButton = document.querySelector('.enableEthereumButton');
-  ethereumButton.textContent = "Connected";
-  ethereumButton.classList.remove("hover:bg-blue-70");
-  ethereumButton.classList.remove("bg-blue-500");
-  ethereumButton.classList.add("hover:bg-green-70");
-  ethereumButton.classList.add("bg-green-500");
-}
+  function updateButton() {
+    const ethereumButton = document.querySelector('.enableEthereumButton');
+    ethereumButton.textContent = "Connected";
+    ethereumButton.classList.remove("hover:bg-blue-70");
+    ethereumButton.classList.remove("bg-blue-500");
+    ethereumButton.classList.add("hover:bg-green-70");
+    ethereumButton.classList.add("bg-green-500");
+  }
 
-async function connectWebsite() {
+  async function connectWebsite() {
 
     const chainId = await window.ethereum.request({ method: 'eth_chainId' });
-    if(chainId !== '0x13881')
-    {
+    if (chainId !== '0x13881') {
       //alert('Incorrect network! Switch your metamask network to Rinkeby');
       await window.ethereum.request({
         method: 'wallet_switchEthereumChain',
         params: [{ chainId: '0x13881' }],
-     })
-    }  
+      })
+    }
     await window.ethereum.request({ method: 'eth_requestAccounts' })
       .then(() => {
         updateButton();
@@ -54,67 +54,69 @@ async function connectWebsite() {
         getAddress();
         window.location.replace(location.pathname)
       });
-}
+  }
 
   useEffect(() => {
     let val = window.ethereum.isConnected();
-    if(val)
-    {
+    if (val) {
       console.log("here");
       getAddress();
       toggleConnect(val);
       updateButton();
     }
 
-    window.ethereum.on('accountsChanged', function(accounts){
+    window.ethereum.on('accountsChanged', function (accounts) {
       window.location.replace(location.pathname)
     })
   });
 
-    return (
-      <div className="nav-container">
-        <nav className="nav-screen">
-          <ul className='nav-screen'>
-          <li className='flex items-end ml-5 pb-2'>
+  return (
+    <div className="flex justify-between items-center bg-blue-300  p-2 w-full">
+      <nav className="">
+        <ul className='flex gap-2 items-center'>
+          <li className=''>
             <Link to="/">
-            {/* <img src={fullLogo} alt="" width={120} height={120} className="inline-block -mt-2"/> */}
-            <div className=''>
-              AuxBlock
-            </div>
+              <div className='text-xl font-bold'>
+                AuxBlock
+              </div>
             </Link>
           </li>
-          <li className='w-2/6'>
-            <ul className='nav-screen-2'>
-              {location.pathname === "/" ? 
-              <li className='border-b-2 hover:pb-0 p-2'>
-                <Link to="/">AuxBlock</Link>
-              </li>
-              :
-              <li className='hover:border-b-2 hover:pb-0 p-2'>
-                <Link to="/">Marketplace</Link>
-              </li>              
+          <li className=''>
+            <ul className='flex mx-auto gap-2 items-center'>
+              {location.pathname === "/" ?
+                <li className=''>
+                  <Link to="/">Home</Link>
+                </li>
+                :
+                <li className=''>
+                  <Link to="/">Marketplace</Link>
+                </li>
               }
-              {location.pathname === "/sellNFT" ? 
-              <li className='border-b-2 hover:pb-0 p-2'>
-                <Link to="/upload">Upload Music</Link>
-              </li>
-              :
-              <li className='hover:border-b-2 hover:pb-0 p-2'>
-                <Link to="/upload">Upload Music</Link>
-              </li>              
-              }              
+              {location.pathname === "/sellNFT" ?
+                <li className=''>
+                  <Button>
+                    <Link to="/upload">Upload Music</Link>
+                  </Button>
+                </li>
+                :
+                <li className=''>
+                  <Button variant={"outline"}>
+                    <Link to="/upload">Upload Music</Link>
+                  </Button>
+                </li>
+              }
               <li>
-                <button className="enableEthereumButton bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-sm" onClick={connectWebsite}>{connected? "Connected":"Connect Wallet"}</button>
+                <Button colorScheme={"purple"} className="" onClick={connectWebsite}>{connected ? "Connected" : "Connect Wallet"}</Button>
               </li>
             </ul>
           </li>
-          </ul>
-        </nav>
-        <div className='text-white text-bold text-right mr-10 text-sm'>
-          {currAddress !== "0x" ? "Connected to":"Not Connected. Please login to view NFTs"} {currAddress !== "0x" ? (currAddress.substring(0,15)+'...'):""}
-        </div>
+        </ul>
+      </nav>
+      <div className='ml-2 text-sm'>
+        {currAddress !== "0x" ? "Connected to" : "Not Connected. Please login to view NFTs"} {currAddress !== "0x" ? (currAddress.substring(0, 15) + '...') : ""}
       </div>
-    );
-  }
+    </div>
+  );
+}
 
-  export default Navbar;
+export default Navbar;
