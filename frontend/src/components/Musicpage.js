@@ -3,6 +3,7 @@ import { useLocation, useParams } from 'react-router-dom';
 import MusicLibrary from "./MusicLibrary.json";
 import axios from "axios";
 import { useState } from "react";
+import MusicFooter from "./musicFooter";
 
 export default function NFTPage (props) {
 
@@ -71,38 +72,38 @@ async function buyNFT(tokenId) {
     const tokenId = params.tokenId;
     if(!dataFetched)
         getNFTData(tokenId);
-
+       console.log('show',data)
+       const music = 'https://hanzluo.s3-us-west-1.amazonaws.com/music/wuyuwuqing.mp3'
     return(
-        <div style={{"min-height":"100vh"}}>
+        <div
+       //  style={{"min-height":"100vh"}}
+         >
             <Navbar></Navbar>
-            <div className="flex ml-20 mt-20">
-                <img src={data.image} alt="" className="w-2/5" />
-                <div className="text-xl ml-20 space-y-8 text-white shadow-2xl rounded-lg border-2 p-5">
-                    <div>
-                        Name: {data.artistName}
+            <div className="flex mt-20 flex-col items-center bg-metal ">
+            <div className=" mt-10 flex h-96 w-96  items-center border-2 border-purple">
+            {/* <img src={data.image} alt="" className="" /> */}
+            </div>
+                <div className="mt-20 mr-30">
+                    <div className="text-xl mt-0 text-white font-Space font-bold">
+                     {data.artistName} -- {data.songTitle}
+                    </div>
+                    <div className="text-base mt-0 text-white font-Space font-bold">
+                      {data.genre}
+                    </div>
+                    <div className="text-xs mt-0 text-white font-Space font-bold">
+                       {data.copyRight}
                     </div>
                     <div>
-                        Description: {data.songTitle}
-                    </div>
-                    <div>
-                        Price: <span className="">{data.genre}</span>
-                    </div>
-                    <div>
-                        Owner: <span className="text-sm">{data.owner}</span>
-                    </div>
-                    <div>
-                        Creator: <span className="text-sm">{data.creator}</span>
-                    </div>
-                    <div>
-                    { currAddress == data.owner || currAddress == data.seller ?
+                    {/* { currAddress == data.owner || currAddress == data.creator ?
                         <button className="enableEthereumButton bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-sm" onClick={() => buyNFT(tokenId)}>Buy this NFT</button>
                         : <div className="text-emerald-700">You are the owner of this NFT</div>
-                    }
+                    } */}
                     
                     <div className="text-green text-center mt-3">{message}</div>
                     </div>
                 </div>
             </div>
+            <MusicFooter data={data.song}></MusicFooter>   
         </div>
     )
 }

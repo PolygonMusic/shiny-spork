@@ -3,6 +3,8 @@ import MusicTile from "./MusicTile";
 import MusicLibraryJSON from "../components/MusicLibrary.json";
 import axios from "axios";
 import { useState, useEffect } from "react";
+import MusicFooter from "./musicFooter";
+const music = 'https://hanzluo.s3-us-west-1.amazonaws.com/music/wuyuwuqing.mp3'
 
 export default function Marketplace() {
 const sampleData = [
@@ -81,11 +83,15 @@ if(!dataFetched)
 return (
     <div>
         <Navbar></Navbar>
-        <div className="flex flex-col place-items-center mt-20">
-            <div className="md:text-xl font-bold text-white">
-                New Releases
+        <div className="flex flex-col place-items-center bg-blueish" style={{backgroundImage: "url('https://i.ibb.co/09bQL63/galaxy-1.jpg'),linear-gradient(#0D0636)",opacity:"1"}}>
+        <div className="md:text-9xl font-bold text-white items-start mt-10 font-Space">
+               Decentralized music <br></br>
+               streaming app.
             </div>
-            <div className="flex mt-5 justify-between flex-wrap max-w-screen-xl text-center">
+            <div className="flex place-items-end text-3xl font-bold text-white mt-10 font-Space">
+               New releases
+            </div>
+            <div className="flex mt-5 justify-center flex-wrap max-w-screen-xl text-center">
                 {data.map((value, index) => {
                     return <MusicTile data={value} key={index}></MusicTile>;
                 })}
@@ -93,7 +99,8 @@ return (
             
             <div>
             </div>
-        </div>            
+        </div> 
+        <MusicFooter></MusicFooter>           
     </div>
 );
 

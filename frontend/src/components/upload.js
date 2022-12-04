@@ -87,7 +87,7 @@ export default function SellNFT() {
             //After adding your Hardhat network to your metamask, this code will get providers and signers
             const provider = new ethers.providers.Web3Provider(window.ethereum);
             const signer = provider.getSigner();
-            updateMessage("Please wait.. uploading (upto 5 mins)")
+            updateMessage("Please wait.. uploading (might take a while)")
 
             //Pull the deployed contract instance
             let contract = new ethers.Contract(MusicLibrary.address, MusicLibrary.abi, signer)
@@ -101,7 +101,7 @@ export default function SellNFT() {
             let transaction = await contract.uploadMusic(metadataURL)
             await transaction.wait()
 
-            alert("Successfully listed your NFT!");
+            alert("Successfully listed your Song!");
             updateMessage("");
             updateFormParams({ artistName: '', genre: '', songTitle: '', copyRight: '' });
             window.location.replace("/")

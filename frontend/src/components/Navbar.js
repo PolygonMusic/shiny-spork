@@ -11,6 +11,8 @@ import {
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router';
 import { Button } from '@chakra-ui/react';
+import Logo from '../image/auxblock.svg'
+
 
 
 
@@ -71,19 +73,19 @@ function Navbar() {
   });
 
   return (
-    <div className="flex justify-between items-center bg-blue-300  p-2 w-full">
+    <div className="flex justify-between items-center bg-blueish  p-4 w-full border-b-4 border-purple sticky top-0 z-50" >
       <nav className="">
         <ul className='flex gap-2 items-center'>
           <li className=''>
             <Link to="/">
-              <div className='text-xl font-bold'>
-                AuxBlock
+              <div className='text-xl font-bold text-white ml-8'>
+                <img src={Logo}/>
               </div>
             </Link>
           </li>
           <li className=''>
-            <ul className='flex mx-auto gap-2 items-center'>
-              {location.pathname === "/" ?
+            <ul className='flex gap-2 items-center ml-20'>
+              {/* {location.pathname === "/" ?
                 <li className=''>
                   <Link to="/">Home</Link>
                 </li>
@@ -91,7 +93,7 @@ function Navbar() {
                 <li className=''>
                   <Link to="/">Marketplace</Link>
                 </li>
-              }
+              } */}
               {location.pathname === "/sellNFT" ?
                 <li className=''>
                   <Button>
@@ -99,21 +101,21 @@ function Navbar() {
                   </Button>
                 </li>
                 :
-                <li className=''>
+                <li className='text-white'>
                   <Button variant={"outline"}>
                     <Link to="/upload">Upload Music</Link>
                   </Button>
                 </li>
               }
               <li>
-                <Button colorScheme={"purple"} className="" onClick={connectWebsite}>{connected ? "Connected" : "Connect Wallet"}</Button>
+                <Button colorScheme={"purple"} className="enableEthereumButton" onClick={connectWebsite}>{connected ? "Connected" : "Connect Wallet"}</Button>
               </li>
             </ul>
           </li>
         </ul>
       </nav>
-      <div className='ml-2 text-sm'>
-        {currAddress !== "0x" ? "Connected to" : "Not Connected. Please login to view NFTs"} {currAddress !== "0x" ? (currAddress.substring(0, 15) + '...') : ""}
+      <div className='mr-9 text-m text-white font-bold font-Space '>
+        {currAddress !== "0x" ? "GM Chief" : "Not Connected. Please login to view NFTs"} {currAddress !== "0x" ? (currAddress.substring(0, 15) + '...') : ""}
       </div>
     </div>
   );
