@@ -11,9 +11,7 @@ import {
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router';
 import { Button } from '@chakra-ui/react';
-import Logo from '../image/auxblock.svg'
-
-
+import Logo from '../image/auxblock.svg';
 
 
 function Navbar() {
@@ -28,8 +26,13 @@ function Navbar() {
     const signer = provider.getSigner();
     const addr = await signer.getAddress();
     updateAddress(addr);
+    toggleConnect(true)
   }
+const ethers = require("ethers");
+console.log('huh',currAddress)
 
+
+// console.log('addy',addy )
   function updateButton() {
     const ethereumButton = document.querySelector('.enableEthereumButton');
     ethereumButton.textContent = "Connected";
@@ -43,7 +46,6 @@ function Navbar() {
 
     const chainId = await window.ethereum.request({ method: 'eth_chainId' });
     if (chainId !== '0x13881') {
-      //alert('Incorrect network! Switch your metamask network to Rinkeby');
       await window.ethereum.request({
         method: 'wallet_switchEthereumChain',
         params: [{ chainId: '0x13881' }],
@@ -57,20 +59,23 @@ function Navbar() {
         window.location.replace(location.pathname)
       });
   }
+  
+  // useEffect(() => {
+  //   const val = window.ethereum.isConnected();
+  //   if (val) {
+  //     console.log("here");
+  //     getAddress();
+  //     toggleConnect(val);
+  //     updateButton();
+  //   }
 
-  useEffect(() => {
-    let val = window.ethereum.isConnected();
-    if (val) {
-      console.log("here");
-      getAddress();
-      toggleConnect(val);
-      updateButton();
-    }
-
-    window.ethereum.on('accountsChanged', function (accounts) {
-      window.location.replace(location.pathname)
-    })
-  });
+  //   window.ethereum.on('accountsChanged', function (accounts) {
+  //     window.location.replace(location.pathname)
+  //   })
+  // });
+  useEffect(() =>{
+    getAddress()
+  })
 
   return (
     <div className="flex justify-between items-center bg-blueish  p-4 w-full border-b-4 border-purple sticky top-0 z-50" >
@@ -115,7 +120,8 @@ function Navbar() {
         </ul>
       </nav>
       <div className='mr-9 text-m text-white font-bold font-Space '>
-        {currAddress !== "0x" ? "GM Chief" : "Not Connected. Please login to view NFTs"} {currAddress !== "0x" ? (currAddress.substring(0, 15) + '...') : ""}
+      {/* {currAddress} */}
+        {currAddress !== "0x" ? "GM Chief" : "Not Connected. Please connect wallet"} {currAddress !== "0x" ? (currAddress.substring(0, 15) + '...') : ""}
       </div>
     </div>
   );

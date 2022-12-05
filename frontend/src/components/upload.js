@@ -78,7 +78,7 @@ export default function SellNFT() {
         }
     }
 
-    async function listNFT(e) {
+    async function listMusic(e) {
         e.preventDefault();
 
         //Upload data to IPFS
@@ -104,7 +104,7 @@ export default function SellNFT() {
             alert("Successfully listed your Song!");
             updateMessage("");
             updateFormParams({ artistName: '', genre: '', songTitle: '', copyRight: '' });
-            window.location.replace("/")
+            window.location.replace("").refresh();
         }
         catch (e) {
             alert("Upload error" + e)
@@ -151,7 +151,7 @@ export default function SellNFT() {
                     </VStack>
 
                     <div className="tr">{message}</div>
-                    <Button className="my-4" colorScheme={"purple"} onClick={listNFT}>
+                    <Button className="my-4" colorScheme={"purple"} onClick={listMusic}>
                         Upload Music
                     </Button>
                 </form>

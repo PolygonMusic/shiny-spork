@@ -4,39 +4,74 @@ import MusicLibraryJSON from "../components/MusicLibrary.json";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import MusicFooter from "./musicFooter";
-const music = 'https://hanzluo.s3-us-west-1.amazonaws.com/music/wuyuwuqing.mp3'
 
 export default function Marketplace() {
-const sampleData = [
-    {
-        "name": "NFT#1",
-        "description": "Alchemy's First NFT",
-        "website":"http://axieinfinity.io",
-        "image":"https://gateway.pinata.cloud/ipfs/QmTsRJX7r5gyubjkdmzFrKQhHv74p5wT9LdeF1m3RTqrE5",
-        "price":"0.03ETH",
-        "currentlySelling":"True",
-        "address":"0xe81Bf5A757CB4f7F82a2F23b1e59bE45c33c5b13",
-    },
-    // {
-    //     "name": "NFT#2",
-    //     "description": "Alchemy's Second NFT",
-    //     "website":"http://axieinfinity.io",
-    //     "image":"https://gateway.pinata.cloud/ipfs/QmdhoL9K8my2vi3fej97foiqGmJ389SMs55oC5EdkrxF2M",
-    //     "price":"0.03ETH",
-    //     "currentlySelling":"True",
-    //     "address":"0xe81Bf5A757C4f7F82a2F23b1e59bE45c33c5b13",
-    // },
-    // {
-    //     "name": "NFT#3",
-    //     "description": "Alchemy's Third NFT",
-    //     "website":"http://axieinfinity.io",
-    //     "image":"https://gateway.pinata.cloud/ipfs/QmTsRJX7r5gyubjkdmzFrKQhHv74p5wT9LdeF1m3RTqrE5",
-    //     "price":"0.03ETH",
-    //     "currentlySelling":"True",
-    //     "address":"0xe81Bf5A757C4f7F82a2F23b1e59bE45c33c5b13",
-    // },
-];
-const [data, updateData] = useState([]);
+
+    const trend = [
+        {
+            "artistName": "Taylor Swift",
+            "song": "https://gateway.pinata.cloud/ipfs/QmUyqMayqTN5KSXNR2Abc9snCNTeXmRSS9VzhVsE1qMBbj",
+            "copyRight": "@ 2014 Taylor Swift",
+            "songTitle":"1989",
+            "image":"https://i.ibb.co/FgQcRhs/50-Taylor-Swift-1989-2014-album-art-billboard-1240.webp",
+            "genre":"RnB",
+            "owner":"Taylor",
+            "creator":"0xe81Bf5A757CB4f7F82a2F23b1e59bE45c33c5b13",
+        },
+        {
+            "artistName": "Young Thug",
+            "song": "https://gateway.pinata.cloud/ipfs/QmUyqMayqTN5KSXNR2Abc9snCNTeXmRSS9VzhVsE1qMBbj",
+            "copyRight": "@ 2016",
+            "songTitle":"Jeffery",
+            "image":"https://i.ibb.co/4Ws9h3z/Young-Thug-Jeffery-2016-billboard-1240.webp",
+            "genre":"Rap",
+            "owner":"Young Thug",
+            "creator":"0xe81Bf5A757CB4f7F82a2F23b1e59bE45c33c5b13",
+        },
+        {
+            "artistName": "Lady Gaga",
+            "song": "https://gateway.pinata.cloud/ipfs/QmUyqMayqTN5KSXNR2Abc9snCNTeXmRSS9VzhVsE1qMBbj",
+            "copyRight": "@ 2009 Lady Gaga",
+            "songTitle":"The Fame Monster",
+            "image":"https://i.ibb.co/vHNJG43/48-Lady-Gaga-The-Fame-Monster-2009-album-art-billboard-1240.webp",
+            "genre":"RnB",
+            "owner":"Lady Gaga",
+            "creator":"0xe81Bf5A757CB4f7F82a2F23b1e59bE45c33c5b13",
+        },
+        {
+            "artistName": "Janet Jackson",
+            "song": "https://gateway.pinata.cloud/ipfs/QmUyqMayqTN5KSXNR2Abc9snCNTeXmRSS9VzhVsE1qMBbj",
+            "copyRight": "@ 1989 Janet Jacson",
+            "songTitle":"Rhythm Nation",
+            "image":"https://i.ibb.co/T80xSgc/47-Janet-Jackson-Rhythm-Nation-1814-1989-album-at-billboard-1240.jpg",
+            "genre":"RnB",
+            "owner":"Janet Jackson",
+            "creator":"0xe81Bf5A757CB4f7F82a2F23b1e59bE45c33c5b13",
+        },
+        
+        {
+            "artistName": "Fukadelic",
+            "song": "https://gateway.pinata.cloud/ipfs/QmUyqMayqTN5KSXNR2Abc9snCNTeXmRSS9VzhVsE1qMBbj",
+            "copyRight": "@ 1971 Funkadelic",
+            "songTitle":"Maggot Brian",
+            "image":"https://i.ibb.co/1ZH4ChH/46-Funkadelic-Maggot-Brain-1971-album-art-billboard-1240.webp",
+            "genre":"RnB",
+            "owner":"Funkadelic",
+            "creator":"0xe81Bf5A757CB4f7F82a2F23b1e59bE45c33c5b13",
+        },
+        {
+            "artistName": "Cardi B",
+            "song": "https://gateway.pinata.cloud/ipfs/QmUyqMayqTN5KSXNR2Abc9snCNTeXmRSS9VzhVsE1qMBbj",
+            "copyRight": "@ 2018 Cardi B",
+            "songTitle":"Invasion of Privacy",
+            "image":"https://i.ibb.co/m02vVZj/cardi-b-invasion-of-privacy-album-art-2018-billboard-embed.webp",
+            "genre":"RnB",
+            "owner":"Cardi B",
+            "creator":"0xe81Bf5A757CB4f7F82a2F23b1e59bE45c33c5b13",
+        },
+    ];    
+
+const [data, updateData] = useState(trend);
 const [dataFetched, updateFetched] = useState(false);
 
 
@@ -100,7 +135,7 @@ return (
             <div>
             </div>
         </div> 
-        <MusicFooter></MusicFooter>           
+        {/* <MusicFooter></MusicFooter>            */}
     </div>
 );
 

@@ -73,15 +73,14 @@ async function buyNFT(tokenId) {
     if(!dataFetched)
         getNFTData(tokenId);
        console.log('show',data)
-       const music = 'https://hanzluo.s3-us-west-1.amazonaws.com/music/wuyuwuqing.mp3'
     return(
-        <div
+        <div className="bg-blueish"
        //  style={{"min-height":"100vh"}}
          >
             <Navbar></Navbar>
-            <div className="flex mt-20 flex-col items-center bg-metal ">
-            <div className=" mt-10 flex h-96 w-96  items-center border-2 border-purple">
-            {/* <img src={data.image} alt="" className="" /> */}
+            <div className="flex mt-20 flex-col items-center bg-blueish ">
+            <div className=" mt-10 flex h-96 w-96  items-center">
+            <img src={data.image} alt="image" className="w-96 h-96 rounded-lg object-cover" />
             </div>
                 <div className="mt-20 mr-30">
                     <div className="text-xl mt-0 text-white font-Space font-bold">
